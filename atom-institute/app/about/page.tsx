@@ -10,7 +10,7 @@ const facultyMembers = [
   {
     id: 1,
     name: "Mr. Arpan Pradhan",
-    image: "/placeholder-user.jpg",
+    image: "images/teacher1.jpg",
     position: "Founder &  Educator",
     qualifications: "Msc in Computer Science, Shantiniketan University",
     experience: "2+ years in education",
