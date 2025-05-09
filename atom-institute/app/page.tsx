@@ -1,82 +1,15 @@
 "use client"
 
-import { useEffect, useRef, useCallback } from "react"
+import { useEffect, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion, useInView, useAnimation } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import ClassCard from "@/components/class-card"
-import { getHomeClasses, getHomeAchievements, getHomeTestimonials } from "@/lib/api"
-import { Class, Achievement, Testimonial } from "@/lib/api"
-import { useFetch } from "@/hooks/use-fetch"
-import { useLoadingState } from "@/hooks/use-loading-state"
 
 export default function Home() {
   const controls = useAnimation()
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true })
-  
-  // Using our custom hooks for data fetching and loading states
-  const { loadingState, setLoadingItem, resetLoading } = useLoadingState({
-    classes: true,
-    achievements: true,
-    testimonials: true,
-  })
-  
-  // Define callbacks with useCallback to maintain stable references
-  const handleClassesSuccess = useCallback((data: Class[]) => {
-    setLoadingItem('classes', false);
-  }, [setLoadingItem]);
-  
-  const handleClassesError = useCallback(() => {
-    setLoadingItem('classes', false);
-  }, [setLoadingItem]);
-  
-  const handleAchievementsSuccess = useCallback((data: Achievement[]) => {
-    setLoadingItem('achievements', false);
-  }, [setLoadingItem]);
-  
-  const handleAchievementsError = useCallback(() => {
-    setLoadingItem('achievements', false);
-  }, [setLoadingItem]);
-  
-  const handleTestimonialsSuccess = useCallback((data: Testimonial[]) => {
-    setLoadingItem('testimonials', false);
-  }, [setLoadingItem]);
-  
-  const handleTestimonialsError = useCallback(() => {
-    setLoadingItem('testimonials', false);
-  }, [setLoadingItem]);
-  
-  const { data: classes, isLoading: classesLoading } = useFetch<Class[]>(
-    getHomeClasses,
-    [],
-    {
-      immediate: true,
-      onSuccess: handleClassesSuccess,
-      onError: handleClassesError,
-    }
-  )
-  
-  const { data: achievements, isLoading: achievementsLoading } = useFetch<Achievement[]>(
-    getHomeAchievements,
-    [],
-    {
-      immediate: true,
-      onSuccess: handleAchievementsSuccess,
-      onError: handleAchievementsError,
-    }
-  )
-  
-  const { data: testimonials, isLoading: testimonialsLoading } = useFetch<Testimonial[]>(
-    getHomeTestimonials,
-    [],
-    {
-      immediate: true,
-      onSuccess: handleTestimonialsSuccess,
-      onError: handleTestimonialsError,
-    }
-  )
 
   useEffect(() => {
     if (isInView) {
@@ -309,18 +242,6 @@ export default function Home() {
                     <span className="text-gray-600">Pass Percentage: </span>
                     <span className="text-blue-900 font-bold">100%</span>
                   </div>
-                  {/* <div className="bg-blue-50 p-3 rounded-lg flex items-center">
-                    <div className="flex-shrink-0 mr-3">
-                      <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-600">
-                          <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-600">All our students have successfully passed their board exams for the past 3 consecutive years.</p>
-                    </div>
-                  </div> */}
                 </div>
                 
                 {/* Stat 2: 90+ Scorers */}
@@ -329,18 +250,6 @@ export default function Home() {
                     <span className="text-gray-600">Students Scoring 90% or Above: </span>
                     <span className="text-blue-900 font-bold">124 </span>
                   </div>
-                  {/* <div className="bg-green-50 p-3 rounded-lg flex items-center">
-                    <div className="flex-shrink-0 mr-3">
-                      <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600">
-                          <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-                        </svg>
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-600">35% of our total students have achieved exceptional academic performance with scores above 90%.</p>
-                    </div>
-                  </div> */}
                 </div>
               </div>
               
@@ -412,18 +321,6 @@ export default function Home() {
                   <p className="text-gray-600">Kalimpong, West Bengal, India</p>
                 </div>
               </div>
-              
-              {/* <div className="mt-8 text-center">
-                <Button asChild size="lg">
-                  <Link href="/about#contact">
-                    Get in Touch
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2">
-                      <path d="M5 12h14"></path>
-                      <path d="m12 5 7 7-7 7"></path>
-                    </svg>
-                  </Link>
-                </Button>
-              </div> */}
             </div>
           </motion.div>
         </div>
