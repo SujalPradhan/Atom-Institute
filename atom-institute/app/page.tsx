@@ -1,22 +1,11 @@
 "use client"
 
-import { useEffect, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { motion, useInView, useAnimation } from "framer-motion"
+import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 
 export default function Home() {
-  const controls = useAnimation()
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true })
-
-  useEffect(() => {
-    if (isInView) {
-      controls.start("visible")
-    }
-  }, [controls, isInView])
-
   return (
     <main className="flex min-h-screen flex-col items-center">
       {/* Hero Section */}
@@ -82,7 +71,7 @@ export default function Home() {
                 </svg>
               </Link>
             </Button>
-            <Button variant="outline" size="lg">
+            <Button asChild variant="outline" size="lg">
               <Link href="/about">About Us</Link>
             </Button>
           </motion.div>

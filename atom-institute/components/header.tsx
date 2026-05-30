@@ -5,7 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Menu } from "lucide-react"
 
 export default function Header() {
@@ -50,7 +50,8 @@ export default function Header() {
               <span className="sr-only">Toggle menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="right">
+          <SheetContent side="right" aria-describedby={undefined}>
+            <SheetTitle className="sr-only">Navigation menu</SheetTitle>
             <nav className="flex flex-col gap-4 mt-8">
               {navigation.map((item) => (
                 <Link

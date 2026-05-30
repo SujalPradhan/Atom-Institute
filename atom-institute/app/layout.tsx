@@ -4,14 +4,24 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
-import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "@/components/ui/sonner"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Atom Institute - Redefining Education",
-  description: "Educational institute for classes 10, 11, and 12 across ICSE, CBSE, and Madhyamik boards",
-  generator: 'v0.dev'
+  metadataBase: new URL("https://atominstitute.edu"),
+  title: {
+    default: "Atom Institute - Redefining Education",
+    template: "%s | Atom Institute",
+  },
+  description:
+    "Educational institute providing quality study materials for classes 10, 11, and 12 across ICSE, CBSE, and Madhyamik boards.",
+  openGraph: {
+    title: "Atom Institute - Redefining Education",
+    description:
+      "Quality education and study materials for classes 10, 11, and 12 across ICSE, CBSE, and Madhyamik boards.",
+    type: "website",
+  },
 }
 
 export default function RootLayout({
@@ -20,15 +30,14 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className} suppressHydrationWarning>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
-          <div className="flex min-h-screen flex-col">
-            <Header />
-            <div className="flex-1">{children}</div>
-            <Footer />
-          </div>
-        </ThemeProvider>
+    <html lang="en">
+      <body className={inter.className}>
+        <div className="flex min-h-screen flex-col">
+          <Header />
+          <div className="flex-1">{children}</div>
+          <Footer />
+        </div>
+        <Toaster richColors position="top-center" />
       </body>
     </html>
   )

@@ -1,175 +1,69 @@
 # Atom Institute
 
-An educational platform for students in classes 10, 11, and 12 across ICSE, CBSE, and Madhyamik boards.
+A standalone educational website for students of classes 10, 11, and 12 across the ICSE, CBSE, and Madhyamik boards.
 
-## Project Overview
+## Overview
 
-Atom Institute is a comprehensive educational platform designed to provide quality education and resources for high school students. The application consists of:
+Atom Institute is a fully static **Next.js** frontend — there is **no backend or database**. All content (classes, subjects, faculty, testimonials, gallery, and study-material links) lives in a single typed data module, [`atom-institute/lib/data.ts`](atom-institute/lib/data.ts). Editing that file is all it takes to update the site's content.
 
-- A **Next.js frontend** with a modern UI built using Tailwind CSS
-- A **Flask backend API** for handling data operations
+The site features:
 
-## Directory Structure
+- Home, Classes, Gallery, Testimonials, and About pages
+- A class → board flow that links to Google Drive study-material folders
+- Responsive design (mobile nav included), built with Tailwind CSS and shadcn/ui
+- Per-page SEO metadata, a custom 404, and an error boundary
+
+## Project structure
 
 ```
-atom-institute/       # Frontend Next.js application
-  ├── app/            # Next.js app directory with pages and routing
-  ├── components/     # React components
-  │    ├── ui/        # UI component library
-  │    └── ...
-  ├── hooks/          # Custom React hooks
-  ├── lib/            # Utility functions and API clients
-  ├── public/         # Static assets
-  │    └── images/    # Image assets
-  └── styles/         # Global styles
-  
-backend/              # Flask backend application
-  ├── app.py          # Main Flask application
-  └── requirements.txt # Python dependencies
+atom-institute/
+  app/             # Next.js App Router pages
+  components/      # Header, Footer, and shadcn/ui primitives
+  lib/
+    data.ts        # All site content (edit here to update the site)
+    utils.ts       # cn() helper
+  public/images/   # Logo and photos
 ```
 
 ## Prerequisites
 
-Before you begin, ensure you have the following installed:
+- [Node.js](https://nodejs.org/) 18.18 or higher
+- npm (the repo is standardized on npm; a `package-lock.json` is committed)
 
-- [Node.js](https://nodejs.org/) (v14 or higher)
-- [npm](https://www.npmjs.com/) or [pnpm](https://pnpm.io/) (pnpm recommended)
-- [Python](https://www.python.org/) (v3.8 or higher)
-- [pip](https://pip.pypa.io/en/stable/)
-
-## Installation & Setup
-
-### Frontend (Next.js)
-
-1. Navigate to the frontend directory:
+## Getting started
 
 ```bash
 cd atom-institute
-```
-
-2. Install dependencies:
-
-```bash
-# Using npm
 npm install
-
-# OR using pnpm (recommended)
-pnpm install
+npm run dev          # http://localhost:3000
 ```
 
-3. Create a `.env.local` file in the root directory with necessary environment variables:
+## Common commands
 
-```
-NEXT_PUBLIC_API_URL=http://localhost:5000
-```
+Run all commands from the `atom-institute/` directory.
 
-### Backend (Flask)
+| Command         | Description                                  |
+| --------------- | -------------------------------------------- |
+| `npm run dev`   | Start the development server                 |
+| `npm run build` | Production build (strict TS + ESLint checks) |
+| `npm start`     | Serve the production build                   |
+| `npm run lint`  | Run ESLint                                    |
 
-1. Navigate to the backend directory:
+## Editing content
+
+Everything the site renders is in `atom-institute/lib/data.ts`:
+
+- **Classes / subjects / faculty / testimonials / gallery** — edit the exported arrays.
+- **Study-material links** — fill in the `driveLinks` map with Google Drive folder URLs, keyed by `"${classNumber}-${BOARD}"` (e.g. `"10-CBSE"`). An empty value shows a friendly "coming soon" message instead of a broken link.
+- **Contact details / social links** — edit the `contact` and `socialLinks` objects. Empty social URLs are hidden automatically.
+
+## Deployment
+
+The site is a standard Next.js app and deploys cleanly to any Node host (e.g. **Vercel**):
 
 ```bash
-cd backend
+npm run build && npm start
 ```
-
-2. Create and activate a virtual environment:
-
-```bash
-# Create virtual environment
-python -m venv venv
-
-# Activate virtual environment (Windows)
-venv\Scripts\activate
-
-# Activate virtual environment (macOS/Linux)
-source venv/bin/activate
-```
-
-3. Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-## Running the Application
-
-### Start the Backend Server
-
-1. Make sure your virtual environment is activated
-2. From the backend directory:
-
-```bash
-flask run
-# or 
-python app.py
-```
-
-The Flask API will start running on http://localhost:5000
-
-### Start the Frontend Development Server
-
-From the atom-institute directory:
-
-```bash
-# Using npm
-npm run dev
-
-# OR using pnpm
-pnpm dev
-```
-
-The Next.js frontend will start running on http://localhost:3000
-
-## Building for Production
-
-### Frontend
-
-```bash
-# Using npm
-npm run build
-
-# OR using pnpm
-pnpm build
-```
-
-To start the production build:
-
-```bash
-# Using npm
-npm start
-
-# OR using pnpm
-pnpm start
-```
-
-### Backend
-
-For production deployment of the Flask backend, consider using a production WSGI server like Gunicorn:
-
-```bash
-pip install gunicorn
-gunicorn app:app
-```
-
-## Features
-
-- Interactive educational content for high school students (classes 10-12)
-- Support for multiple educational boards (ICSE, CBSE, Madhyamik)
-- Subject-specific study materials and resources
-- Responsive design for desktop and mobile viewing
-- Dark/light theme support
-
-## Technologies Used
-
-### Frontend
-- Next.js
-- React
-- TypeScript
-- Tailwind CSS
-- Radix UI Components
-
-### Backend
-- Flask
-- Flask-CORS
 
 ## License
 
@@ -177,4 +71,4 @@ gunicorn app:app
 
 ## Contact
 
-For any inquiries, please reach out to contact@atominstitute.edu
+For inquiries, reach out to contact@atominstitute.edu

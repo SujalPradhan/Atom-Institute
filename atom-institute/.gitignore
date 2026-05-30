@@ -10,11 +10,18 @@
 # production
 /build
 
+# testing
+/coverage
+
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+*.log
+
+# caches
+.eslintcache
 
 # env files
 .env*
@@ -25,3 +32,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# os files
+.DS_Store
+Thumbs.db
+
+# editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo

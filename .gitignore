@@ -1,0 +1,14 @@
+# Repo-wide ignores. App-specific ignores live in atom-institute/.gitignore.
+
+# os files
+.DS_Store
+Thumbs.db
+
+# editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# logs
+*.log
