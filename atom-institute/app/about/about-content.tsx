@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react"
 import Image from "next/image"
 import { motion, useInView, useAnimation } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
-import { faculty } from "@/lib/data"
+import { contact, faculty } from "@/lib/data"
 
 export default function AboutContent() {
   const controls = useAnimation()
@@ -62,6 +62,30 @@ export default function AboutContent() {
                 We envision creating an educational environment where students can discover their potential,
                 develop their skills, and grow into responsible citizens who contribute positively to society.
               </p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Location Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25, duration: 0.5 }}
+          className="mb-16"
+        >
+          <div className="rounded-xl border border-blue-100 bg-white p-6 shadow-md">
+            <h2 className="text-2xl font-bold text-blue-900 mb-3">Our Location</h2>
+            <p className="text-gray-600 mb-5">{contact.location}</p>
+            <div className="overflow-hidden rounded-lg border border-gray-200">
+              <iframe
+                title="Atom Institute location map"
+                src={`https://www.google.com/maps?q=${encodeURIComponent(contact.location)}&z=15&output=embed`}
+                width="100%"
+                height="320"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="w-full"
+              />
             </div>
           </div>
         </motion.div>
