@@ -56,7 +56,7 @@ Run all commands from the `atom-institute/` directory.
 
 ## Deployment
 
-Merging a PR into `main` deploys automatically via [GitHub Actions](.github/workflows/ci-cd.yml): every PR builds both apps; on `main`, the backend deploys to Cloud Run (when `backend/` changed, keyless GCP auth via Workload Identity), then the site deploys to Vercel production and is smoke-tested. Requires the repo secrets `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`. Manual deploys still work:
+Merging a PR into `main` deploys automatically via [GitHub Actions](.github/workflows/ci-cd.yml): every PR builds both apps; on `main`, the backend deploys to Cloud Run (when `backend/` changed, keyless GCP auth via Workload Identity), uploads `backend/seed/*.json` to the tests bucket, then the site deploys to Vercel production and is smoke-tested. Requires the repo secrets `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`. Manual deploys still work:
 
 - Frontend: Vercel. Set `MCQ_API_URL` (the Cloud Run URL) in the Production environment, then `npx vercel deploy --prod` from `atom-institute/`.
 - Backend: `cd backend && ./deploy.sh <GCP_PROJECT_ID> [REGION]`.
