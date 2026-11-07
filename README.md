@@ -1,7 +1,6 @@
 # Atom Institute
 
-A standalone educational website for students of classes 10, 11, and 12 across the ICSE, CBSE, and Madhyamik boards.
-
+Edited by arpan
 ## Overview
 
 Atom Institute is a fully static **Next.js** frontend — there is **no backend or database**. All content (classes, subjects, faculty, testimonials, gallery, and study-material links) lives in a single typed data module, [`atom-institute/lib/data.ts`](atom-institute/lib/data.ts). Editing that file is all it takes to update the site's content.
