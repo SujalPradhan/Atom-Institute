@@ -1,0 +1,12 @@
+{
+  "code": "DEMO10",
+  "title": "Demo Test · Class 10 Science",
+  "classBoard": "10-CBSE",
+  "questions": [
+    { "id": "q1", "text": "Which gas is released during photosynthesis?", "options": ["Carbon dioxide", "Oxygen", "Nitrogen", "Hydrogen"], "answer": 1 },
+    { "id": "q2", "text": "What is the SI unit of electric current?", "options": ["Volt", "Ohm", "Ampere", "Watt"], "answer": 2 },
+    { "id": "q3", "text": "The chemical formula of baking soda is:", "options": ["Na2CO3", "NaHCO3", "NaOH", "NaCl"], "answer": 1 },
+    { "id": "q4", "text": "Which lens is used to correct myopia?", "options": ["Convex lens", "Concave lens", "Bifocal lens", "Cylindrical lens"], "answer": 1 },
+    { "id": "q5", "text": "The powerhouse of the cell is the:", "options": ["Nucleus", "Ribosome", "Mitochondria", "Golgi apparatus"], "answer": 2 }
+  ]
+}
