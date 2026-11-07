@@ -136,7 +136,7 @@ jobs:
       - run: npm ci
       - run: npx --yes vercel@50 pull --yes --environment=production --token="$VERCEL_TOKEN"
       - run: npx --yes vercel@50 build --prod --token="$VERCEL_TOKEN"
-      - run: npx --yes vercel@50 deploy --prebuilt --prod --token="$VERCEL_TOKEN"
+      - run: npx --yes vercel@50 deploy --prebuilt --prod --archive=tgz --token="$VERCEL_TOKEN"
       - name: Smoke test
         run: |
           for path in / /classes /tests /favicon.ico /api/mcq/tests/DEMO10; do
