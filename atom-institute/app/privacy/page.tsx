@@ -8,16 +8,16 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <main className="flex min-h-screen flex-col py-12 bg-white">
-      <div className="container max-w-3xl px-4 md:px-6">
-        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl text-blue-900 mb-2">
+    <main className="page max-w-3xl">
+      <div className="glass p-6 sm:p-10">
+        <h1 className="page-title mb-2">
           Privacy Policy
         </h1>
-        <p className="text-sm text-gray-500 mb-8">Last updated: May 2026</p>
+        <p className="mb-8 text-sm text-muted-foreground">Last updated: May 2026</p>
 
-        <div className="space-y-6 text-gray-600 leading-relaxed">
+        <div className="space-y-8 leading-relaxed text-muted-foreground">
           <section>
-            <h2 className="text-xl font-semibold text-blue-900 mb-2">Overview</h2>
+            <h2 className="mb-2 text-xl font-semibold tracking-tight text-foreground">Overview</h2>
             <p>
               Atom Institute respects your privacy. This website is an informational platform that
               shares study materials and details about our institute. We aim to collect as little
@@ -26,7 +26,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-blue-900 mb-2">Information we collect</h2>
+            <h2 className="mb-2 text-xl font-semibold tracking-tight text-foreground">Information we collect</h2>
             <p>
               This site does not require you to create an account and does not run a backend that
               stores personal data. We do not sell or share personal information. If you contact us
@@ -35,7 +35,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-blue-900 mb-2">External links</h2>
+            <h2 className="mb-2 text-xl font-semibold tracking-tight text-foreground">External links</h2>
             <p>
               Study materials may be hosted on third-party services such as Google Drive. When you
               follow those links you are subject to the privacy policies of those services.
@@ -43,10 +43,10 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-blue-900 mb-2">Contact</h2>
+            <h2 className="mb-2 text-xl font-semibold tracking-tight text-foreground">Contact</h2>
             <p>
               If you have any questions about this policy, reach us at{" "}
-              <a href={`mailto:${contact.email}`} className="text-blue-700 hover:underline">
+              <a href={`mailto:${contact.email}`} className="text-link underline-offset-4 hover:underline">
                 {contact.email}
               </a>
               .

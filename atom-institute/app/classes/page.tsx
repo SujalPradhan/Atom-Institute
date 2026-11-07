@@ -2,9 +2,9 @@ import type { Metadata } from "next"
 import ClassesContent from "./classes-content"
 
 export const metadata: Metadata = {
-  title: "Classes",
+  title: "Learning Hub",
   description:
-    "Select your class to access study materials for Class 10, 11, and 12 across CBSE, ICSE, and Madhyamik boards.",
+    "Chapter-wise notes, PPTs, solved questions and MCQ tests for Class 10, 11 and 12 across CBSE, ICSE and Madhyamik.",
 }
 
 export default function ClassesPage() {

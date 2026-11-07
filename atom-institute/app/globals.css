@@ -4,34 +4,180 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    color-scheme: light;
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
+    --popover-foreground: 222 47% 11%;
+    --primary: 243 75% 59%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 214 32% 94%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 214 32% 94%;
+    --muted-foreground: 215 19% 35%;
+    --accent: 226 100% 96%;
+    --accent-foreground: 243 55% 40%;
+    --link: 243 55% 42%;
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 70% 94%;
+    --success-foreground: 142 64% 20%;
+    --success-border: 142 55% 32%;
+    --danger: 0 86% 96%;
+    --danger-foreground: 0 70% 30%;
+    --danger-border: 0 72% 45%;
+    --border: 215 25% 88%;
+    --input: 215 16% 60%;
+    --ring: 243 75% 59%;
+    --radius: 1rem;
+    --glass-bg: rgba(255, 255, 255, 0.65);
+    --glass-bg-hover: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.6);
+    --glass-shadow: 0 8px 32px rgba(15, 23, 42, 0.06);
+    --glass-shadow-hover: 0 12px 36px rgba(15, 23, 42, 0.1);
+    --field-bg: rgba(255, 255, 255, 0.85);
+    --bg-base: #f8fafc;
+    --bg-a: rgba(56, 189, 248, 0.2);
+    --bg-b: rgba(129, 140, 248, 0.22);
+    --bg-c: rgba(167, 139, 250, 0.16);
   }
-}
 
-@layer base {
+  .dark {
+    color-scheme: dark;
+    --background: 222 47% 6%;
+    --foreground: 210 40% 96%;
+    --card: 222 40% 11%;
+    --card-foreground: 210 40% 96%;
+    --popover: 222 40% 11%;
+    --popover-foreground: 210 40% 96%;
+    --primary: 243 75% 59%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 96%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 74%;
+    --accent: 243 40% 22%;
+    --accent-foreground: 226 100% 88%;
+    --link: 229 93% 82%;
+    --destructive: 0 72% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 40% 14%;
+    --success-foreground: 142 60% 82%;
+    --success-border: 142 50% 45%;
+    --danger: 0 40% 16%;
+    --danger-foreground: 0 90% 86%;
+    --danger-border: 0 65% 58%;
+    --border: 217 25% 22%;
+    --input: 215 16% 50%;
+    --ring: 229 93% 76%;
+    --glass-bg: rgba(15, 23, 42, 0.55);
+    --glass-bg-hover: rgba(30, 41, 59, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --glass-shadow-hover: 0 12px 36px rgba(0, 0, 0, 0.4);
+    --field-bg: rgba(15, 23, 42, 0.7);
+    --bg-base: #0b1120;
+    --bg-a: rgba(14, 165, 233, 0.14);
+    --bg-b: rgba(99, 102, 241, 0.2);
+    --bg-c: rgba(139, 92, 246, 0.14);
+  }
+
   * {
     @apply border-border;
   }
+
+  html {
+    background-color: var(--bg-base);
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-transparent text-foreground antialiased;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(56rem 36rem at 8% -8%, var(--bg-a), transparent 60%),
+      radial-gradient(48rem 36rem at 100% 4%, var(--bg-b), transparent 60%),
+      radial-gradient(52rem 38rem at 50% 108%, var(--bg-c), transparent 60%),
+      var(--bg-base);
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: hsl(var(--ring) / 0.3);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .glass {
+    @apply rounded-2xl border ring-1 ring-foreground/5 backdrop-blur-xl;
+    background-color: var(--glass-bg);
+    border-color: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+  }
+
+  .glass-hover {
+    @apply transition-[background-color,box-shadow,transform] duration-200 motion-safe:hover:-translate-y-0.5;
+  }
+
+  .glass-hover:hover {
+    background-color: var(--glass-bg-hover);
+    box-shadow: var(--glass-shadow-hover);
+  }
+
+  .row-list {
+    @apply glass divide-y divide-foreground/10 overflow-hidden;
+  }
+
+  .row-link {
+    @apply flex min-h-14 items-center gap-4 px-4 py-3 transition-colors hover:bg-foreground/5 sm:px-5;
+  }
+
+  .page {
+    @apply mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 md:py-16;
+  }
+
+  .page-title {
+    @apply text-3xl font-semibold tracking-tight text-foreground sm:text-4xl md:text-5xl;
+  }
+
+  .page-lead {
+    @apply max-w-2xl text-base text-muted-foreground md:text-lg;
+  }
+
+  .section-title {
+    @apply text-2xl font-semibold tracking-tight text-foreground sm:text-3xl;
+  }
+
+  .field {
+    @apply h-11 w-full rounded-xl border border-input px-3.5 text-sm text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40;
+    background-color: var(--field-bg);
+  }
+
+  .field-label {
+    @apply text-sm font-medium text-foreground;
   }
 }

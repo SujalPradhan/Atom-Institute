@@ -5,8 +5,10 @@ import "./globals.css"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { Toaster } from "@/components/ui/sonner"
+import { ThemeProvider, themeInitScript } from "@/components/theme-provider"
+import MotionProvider from "@/components/motion-provider"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"], display: "swap" })
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://atominstitute.edu"),
@@ -30,14 +32,21 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className={inter.className}>
-        <div className="flex min-h-screen flex-col">
-          <Header />
-          <div className="flex-1">{children}</div>
-          <Footer />
-        </div>
-        <Toaster richColors position="top-center" />
+        <ThemeProvider>
+          <MotionProvider>
+            <div className="flex min-h-screen flex-col">
+              <Header />
+              <div className="flex-1">{children}</div>
+              <Footer />
+            </div>
+          </MotionProvider>
+          <Toaster position="top-center" />
+        </ThemeProvider>
       </body>
     </html>
   )

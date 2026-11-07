@@ -8,16 +8,16 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <main className="flex min-h-screen flex-col py-12 bg-white">
-      <div className="container max-w-3xl px-4 md:px-6">
-        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl text-blue-900 mb-2">
+    <main className="page max-w-3xl">
+      <div className="glass p-6 sm:p-10">
+        <h1 className="page-title mb-2">
           Terms of Service
         </h1>
-        <p className="text-sm text-gray-500 mb-8">Last updated: May 2026</p>
+        <p className="mb-8 text-sm text-muted-foreground">Last updated: May 2026</p>
 
-        <div className="space-y-6 text-gray-600 leading-relaxed">
+        <div className="space-y-8 leading-relaxed text-muted-foreground">
           <section>
-            <h2 className="text-xl font-semibold text-blue-900 mb-2">Use of this website</h2>
+            <h2 className="mb-2 text-xl font-semibold tracking-tight text-foreground">Use of this website</h2>
             <p>
               This website provides educational information and study materials for students of
               classes 10, 11, and 12. You may use it for personal, non-commercial, educational
@@ -26,7 +26,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-blue-900 mb-2">Content</h2>
+            <h2 className="mb-2 text-xl font-semibold tracking-tight text-foreground">Content</h2>
             <p>
               We strive to keep the information on this site accurate and up to date, but we make no
               warranties about its completeness or accuracy. Study materials are provided as-is and
@@ -35,7 +35,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-blue-900 mb-2">Third-party resources</h2>
+            <h2 className="mb-2 text-xl font-semibold tracking-tight text-foreground">Third-party resources</h2>
             <p>
               Some materials link to third-party services such as Google Drive. We are not
               responsible for the content or availability of those external resources.
@@ -43,10 +43,10 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-blue-900 mb-2">Contact</h2>
+            <h2 className="mb-2 text-xl font-semibold tracking-tight text-foreground">Contact</h2>
             <p>
               Questions about these terms can be sent to{" "}
-              <a href={`mailto:${contact.email}`} className="text-blue-700 hover:underline">
+              <a href={`mailto:${contact.email}`} className="text-link underline-offset-4 hover:underline">
                 {contact.email}
               </a>
               .
