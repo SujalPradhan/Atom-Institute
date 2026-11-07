@@ -1,0 +1,139 @@
+name: CI/CD
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-cd-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+env:
+  GCP_PROJECT: project-e5394bda-42fd-4ce4-b63
+  GCP_REGION: us-central1
+  GCP_WIF_PROVIDER: projects/1028298736805/locations/global/workloadIdentityPools/github/providers/github-oidc
+  GCP_SERVICE_ACCOUNT: github-deployer@project-e5394bda-42fd-4ce4-b63.iam.gserviceaccount.com
+  CLOUD_RUN_SERVICE: atom-mcq
+  SITE_URL: https://www.atomkpg.in
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      frontend: ${{ github.event_name == 'workflow_dispatch' || steps.filter.outputs.frontend == 'true' }}
+      backend: ${{ github.event_name == 'workflow_dispatch' || steps.filter.outputs.backend == 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            frontend:
+              - 'atom-institute/**'
+              - '.github/workflows/ci-cd.yml'
+            backend:
+              - 'backend/**'
+              - '.github/workflows/ci-cd.yml'
+
+  backend-check:
+    needs: changes
+    if: needs.changes.outputs.backend == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+      - run: npm run build
+
+  frontend-check:
+    needs: changes
+    if: needs.changes.outputs.frontend == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: atom-institute
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: atom-institute/package-lock.json
+      - run: npm ci
+      - run: npm run build
+
+  deploy-backend:
+    needs: [changes, backend-check]
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && needs.changes.outputs.backend == 'true'
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.GCP_WIF_PROVIDER }}
+          service_account: ${{ env.GCP_SERVICE_ACCOUNT }}
+      - uses: google-github-actions/setup-gcloud@v2
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy "$CLOUD_RUN_SERVICE" \
+            --source backend \
+            --project "$GCP_PROJECT" \
+            --region "$GCP_REGION" \
+            --quiet
+      - name: Health check
+        run: |
+          url=$(gcloud run services describe "$CLOUD_RUN_SERVICE" --project "$GCP_PROJECT" --region "$GCP_REGION" --format='value(status.url)')
+          curl -fsS --retry 5 --retry-delay 5 "$url/health"
+
+  deploy-frontend:
+    needs: [changes, frontend-check, deploy-backend]
+    if: >-
+      always() &&
+      github.ref == 'refs/heads/main' && github.event_name != 'pull_request' &&
+      needs.changes.outputs.frontend == 'true' &&
+      needs.frontend-check.result == 'success' &&
+      (needs.deploy-backend.result == 'success' || needs.deploy-backend.result == 'skipped')
+    runs-on: ubuntu-latest
+    environment: production
+    defaults:
+      run:
+        working-directory: atom-institute
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: atom-institute/package-lock.json
+      - run: npm ci
+      - run: npx --yes vercel@50 pull --yes --environment=production --token="$VERCEL_TOKEN"
+      - run: npx --yes vercel@50 build --prod --token="$VERCEL_TOKEN"
+      - run: npx --yes vercel@50 deploy --prebuilt --prod --token="$VERCEL_TOKEN"
+      - name: Smoke test
+        run: |
+          for path in / /classes /tests /favicon.ico /api/mcq/tests/DEMO10; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --retry 3 "$SITE_URL$path")
+            echo "$path $code"
+            [ "$code" = "200" ] || exit 1
+          done
