@@ -1,9 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 180 180">
-  <style>.o{stroke:#0B3A66}@media (prefers-color-scheme:dark){.o{stroke:#C9D8F0}}</style>
-  <g class="o" fill="none" stroke-width="11">
-    <ellipse cx="84" cy="84" rx="28" ry="76"/>
-    <ellipse cx="84" cy="84" rx="28" ry="76" transform="rotate(60 84 84)"/>
-    <ellipse cx="84" cy="84" rx="28" ry="76" transform="rotate(-60 84 84)"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#ffffff"/>
+  <g transform="translate(6.8 6.8) scale(0.3)">
+    <g fill="none" stroke="#0B3A66" stroke-width="12">
+      <ellipse cx="84" cy="84" rx="28" ry="76"/>
+      <ellipse cx="84" cy="84" rx="28" ry="76" transform="rotate(60 84 84)"/>
+      <ellipse cx="84" cy="84" rx="28" ry="76" transform="rotate(-60 84 84)"/>
+    </g>
+    <circle cx="84" cy="84" r="22" fill="#E95534"/>
   </g>
-  <circle cx="84" cy="84" r="21" fill="#E95534"/>
 </svg>
