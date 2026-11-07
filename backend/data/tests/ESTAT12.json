@@ -1,0 +1,16 @@
+{
+  "code": "ESTAT12",
+  "title": "Class 12 Physics · Electrostatics",
+  "questions": [
+    { "id": "q1", "text": "Which of the four fundamental forces of nature is the weakest?", "options": ["Gravitational force", "Electromagnetic force", "Strong nuclear force", "Weak nuclear force"], "answer": 0 },
+    { "id": "q2", "text": "The carrier particle of the electromagnetic force is the:", "options": ["Gluon", "Photon", "W boson", "Graviton"], "answer": 1 },
+    { "id": "q3", "text": "Electrostatics is the study of:", "options": ["charges in motion", "charges at rest", "magnetic fields of steady currents", "electromagnetic waves"], "answer": 1 },
+    { "id": "q4", "text": "The magnitude of the charge on an electron is:", "options": ["1.6 × 10⁻¹⁹ C", "9.1 × 10⁻³¹ C", "1.6 × 10¹⁹ C", "6.6 × 10⁻³⁴ C"], "answer": 0 },
+    { "id": "q5", "text": "If the distance between two point charges is doubled, the electrostatic force between them becomes:", "options": ["double", "half", "one-fourth", "four times"], "answer": 2 },
+    { "id": "q6", "text": "Electric field lines:", "options": ["form closed loops", "can intersect each other", "start on positive charges and end on negative charges", "are always parallel"], "answer": 2 },
+    { "id": "q7", "text": "According to Gauss's law, the total electric flux through a closed surface enclosing charge q is:", "options": ["q ε₀", "q / ε₀", "ε₀ / q", "zero"], "answer": 1 },
+    { "id": "q8", "text": "The electric field inside a charged conductor in electrostatic equilibrium is:", "options": ["maximum", "zero", "equal to the field at its surface", "infinite"], "answer": 1 },
+    { "id": "q9", "text": "The work done in moving a charge along an equipotential surface is:", "options": ["positive", "negative", "zero", "infinite"], "answer": 2 },
+    { "id": "q10", "text": "The capacitance of a parallel plate capacitor with plate area A and separation d (in vacuum) is:", "options": ["ε₀A/d", "ε₀d/A", "A/(ε₀d)", "ε₀Ad"], "answer": 0 }
+  ]
+}

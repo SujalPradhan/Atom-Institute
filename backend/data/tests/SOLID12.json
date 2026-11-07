@@ -1,0 +1,16 @@
+{
+  "code": "SOLID12",
+  "title": "Class 12 Chemistry · Solid State",
+  "questions": [
+    { "id": "q1", "text": "How many elements are liquids at room temperature?", "options": ["One", "Two", "Three", "Eleven"], "answer": 1 },
+    { "id": "q2", "text": "Which of the following is an amorphous solid?", "options": ["Glass", "Sodium chloride", "Quartz", "Diamond"], "answer": 0 },
+    { "id": "q3", "text": "Crystalline solids show different physical properties in different directions. This property is called:", "options": ["Isotropy", "Anisotropy", "Allotropy", "Isomerism"], "answer": 1 },
+    { "id": "q4", "text": "How many crystal systems are there?", "options": ["4", "7", "14", "32"], "answer": 1 },
+    { "id": "q5", "text": "The number of atoms per unit cell in a body-centred cubic (bcc) lattice is:", "options": ["1", "2", "4", "6"], "answer": 1 },
+    { "id": "q6", "text": "The number of atoms per unit cell in a face-centred cubic (fcc) lattice is:", "options": ["1", "2", "4", "8"], "answer": 2 },
+    { "id": "q7", "text": "The packing efficiency of a cubic close-packed (fcc) structure is about:", "options": ["52.4%", "68%", "74%", "90%"], "answer": 2 },
+    { "id": "q8", "text": "For a bcc unit cell of edge length a, the atomic radius r is:", "options": ["a/2", "√2a/4", "√3a/4", "a/√2"], "answer": 2 },
+    { "id": "q9", "text": "The coordination number of each ion in the NaCl (rock salt) structure is:", "options": ["4", "6", "8", "12"], "answer": 1 },
+    { "id": "q10", "text": "Which defect decreases the density of an ionic crystal?", "options": ["Frenkel defect", "Schottky defect", "Interstitial defect", "Dislocation"], "answer": 1 }
+  ]
+}
