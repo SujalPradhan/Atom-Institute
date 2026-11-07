@@ -4,25 +4,24 @@ A standalone educational website for students of classes 10, 11, and 12 across t
 
 ## Overview
 
-Atom Institute is a fully static **Next.js** frontend — there is **no backend or database**. All content (classes, subjects, faculty, testimonials, gallery, and study-material links) lives in a single typed data module, [`atom-institute/lib/data.ts`](atom-institute/lib/data.ts). Editing that file is all it takes to update the site's content.
-
-The site features:
-
-- Home, Classes, Gallery, Testimonials, and About pages
-- A class → board flow that links to Google Drive study-material folders
-- Responsive design (mobile nav included), built with Tailwind CSS and shadcn/ui
-- Per-page SEO metadata, a custom 404, and an error boundary
+- **`atom-institute/`**: Next.js site with a light/dark glass UI. The **Classes** section is a Learning Hub: batches (class × board), subjects, and chapters with Notes, PPT, Solved Qs and MCQ Tests tabs. Notes and PPTs are Notion or Google Drive links kept in [`lib/syllabus.ts`](atom-institute/lib/syllabus.ts). Other content lives in [`lib/data.ts`](atom-institute/lib/data.ts).
+- **`backend/`**: MCQ test service (Hono on Google Cloud Run, JSON in Cloud Storage). Students take a test with a code at `/tests`; teachers see scores at `/tests/results` with a teacher key. See [`backend/README.md`](backend/README.md).
 
 ## Project structure
 
 ```
 atom-institute/
-  app/             # Next.js App Router pages
-  components/      # Header, Footer, and shadcn/ui primitives
+  app/             # App Router pages (classes hub, tests, ...)
+  components/      # Header, footer, theme, logo, shadcn/ui primitives
   lib/
-    data.ts        # All site content (edit here to update the site)
-    utils.ts       # cn() helper
-  public/images/   # Logo and photos
+    data.ts        # Site content
+    syllabus.ts    # Learning Hub chapters and resources
+    mcq.ts         # MCQ API client
+  public/brand/    # Logo (SVG, PNG, WebP) and app icons
+backend/
+  src/             # Hono app, storage (GCS or local dir)
+  seed/            # Test definitions (e.g. DEMO10.json)
+  deploy.sh        # Per-client Cloud Run deploy
 ```
 
 ## Prerequisites
@@ -51,19 +50,14 @@ Run all commands from the `atom-institute/` directory.
 
 ## Editing content
 
-Everything the site renders is in `atom-institute/lib/data.ts`:
-
-- **Classes / subjects / faculty / testimonials / gallery** — edit the exported arrays.
-- **Study-material links** — fill in the `driveLinks` map with Google Drive folder URLs, keyed by `"${classNumber}-${BOARD}"` (e.g. `"10-CBSE"`). An empty value shows a friendly "coming soon" message instead of a broken link.
-- **Contact details / social links** — edit the `contact` and `socialLinks` objects. Empty social URLs are hidden automatically.
+- **Notes, PPTs, solved questions**: add `{ title, url }` to the chapter in `atom-institute/lib/syllabus.ts`.
+- **MCQ tests**: add a JSON file to `backend/seed/`, run `backend/deploy.sh`, then add `{ title, code }` to the chapter's `mcq` list.
+- **Classes, faculty, testimonials, gallery, contact, Drive folders**: `atom-institute/lib/data.ts`.
 
 ## Deployment
 
-The site is a standard Next.js app and deploys cleanly to any Node host (e.g. **Vercel**):
-
-```bash
-npm run build && npm start
-```
+- Frontend: Vercel. Set `MCQ_API_URL` (the Cloud Run URL) in the Production environment, then `npx vercel deploy --prod` from `atom-institute/`.
+- Backend: `cd backend && ./deploy.sh <GCP_PROJECT_ID> [REGION]`.
 
 ## License
 
