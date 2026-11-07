@@ -634,6 +634,54 @@ const wb12Computer = [
   "Structured Query Language (SQL)",
 ]
 
+// Class 12 lecture notes (Notion), video lectures and chapter MCQ tests.
+// The same material is shared across boards; keys must match chapter titles.
+const notion = (id: string) => `https://www.notion.so/${id}`
+
+const chemistryPyqs = { title: "Previous year questions (2018–2024)", url: notion("179187ab1ad98065be75c10606945c1e") }
+
+const solidStateLecture: Extras[string] = {
+  notes: [
+    { title: "Lecture notes", url: notion("a3c69801ca7c4bb4b46f470b4ce91692") },
+    { title: "Video lecture", url: "https://www.youtube.com/watch?v=-SKpBwt7J8s&list=PLW0F47OesfFPAjU1Gn-IYExXLvNAeE7eR" },
+  ],
+  solved: [chemistryPyqs],
+  mcq: [{ title: "Solid State · Chapter test", code: "SOLID12" }],
+}
+
+const solutionsLecture: Extras[string] = {
+  notes: [
+    { title: "Lecture notes", url: notion("ed147b91bf2b40d5997acd272fd8f2c3") },
+    { title: "Video lecture", url: "https://www.youtube.com/watch?v=7LVrZTE4BqI" },
+  ],
+  solved: [{ title: "Solutions · PYQ", url: notion("180187ab1ad9804caa5dea0f4095278c") }, chemistryPyqs],
+  mcq: [{ title: "Solutions · Chapter test", code: "SOLN12" }],
+}
+
+const electrochemistryLecture: Extras[string] = {
+  notes: [
+    { title: "Lecture notes", url: notion("185187ab1ad98015917fc8381b543527") },
+    { title: "Video lecture", url: "https://www.youtube.com/watch?v=_l1nxK8tZVk" },
+  ],
+  solved: [chemistryPyqs],
+  mcq: [{ title: "Electrochemistry · Chapter test", code: "ELECHEM12" }],
+}
+
+const electrostaticsLecture: Extras[string] = {
+  notes: [
+    { title: "Introduction to Physics & Electromagnetism", url: notion("65683b8fc25742ab869d3c28b8c610cb") },
+    { title: "Lecture notes", url: notion("105dd174ac484b5d9169041e312dcf38") },
+    { title: "Video lecture", url: "https://www.youtube.com/watch?v=QBOvZAhFExE" },
+  ],
+  mcq: [{ title: "Electrostatics · Chapter test", code: "ESTAT12" }],
+}
+
+const class12Chemistry: Extras = {
+  "Solid State": solidStateLecture,
+  Solutions: solutionsLecture,
+  Electrochemistry: electrochemistryLecture,
+}
+
 export const courses: Course[] = [
   course(10, "CBSE", "Science", cbse10Science, {
     Electricity: { mcq: [{ title: "Demo Test · Class 10 Science", code: "DEMO10" }] },
@@ -664,18 +712,18 @@ export const courses: Course[] = [
   course(11, "Madhyamik", "Biology", wb11Biology),
   course(11, "Madhyamik", "Computer Science", wb11Computer),
 
-  course(12, "CBSE", "Physics", cbse12Physics),
-  course(12, "CBSE", "Chemistry", cbse12Chemistry),
+  course(12, "CBSE", "Physics", cbse12Physics, { "Electric Charges and Fields": electrostaticsLecture }),
+  course(12, "CBSE", "Chemistry", cbse12Chemistry, class12Chemistry),
   course(12, "CBSE", "Mathematics", cbse12Maths),
   course(12, "CBSE", "Biology", cbse12Biology),
   course(12, "CBSE", "Computer Science", cbse12Computer),
-  course(12, "ICSE", "Physics", isc12Physics),
-  course(12, "ICSE", "Chemistry", isc12Chemistry),
+  course(12, "ICSE", "Physics", isc12Physics, { Electrostatics: electrostaticsLecture }),
+  course(12, "ICSE", "Chemistry", isc12Chemistry, class12Chemistry),
   course(12, "ICSE", "Mathematics", isc12Maths),
   course(12, "ICSE", "Biology", isc12Biology),
   course(12, "ICSE", "Computer Science", isc12Computer),
-  course(12, "Madhyamik", "Physics", wb12Physics),
-  course(12, "Madhyamik", "Chemistry", wb12Chemistry),
+  course(12, "Madhyamik", "Physics", wb12Physics, { Electrostatics: electrostaticsLecture }),
+  course(12, "Madhyamik", "Chemistry", wb12Chemistry, class12Chemistry),
   course(12, "Madhyamik", "Mathematics", wb12Maths),
   course(12, "Madhyamik", "Biology", wb12Biology),
   course(12, "Madhyamik", "Computer Science", wb12Computer),

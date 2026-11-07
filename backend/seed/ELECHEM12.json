@@ -1,0 +1,16 @@
+{
+  "code": "ELECHEM12",
+  "title": "Class 12 Chemistry · Electrochemistry",
+  "questions": [
+    { "id": "q1", "text": "In a galvanic (electrochemical) cell, oxidation takes place at the:", "options": ["Cathode", "Anode", "Salt bridge", "External circuit"], "answer": 1 },
+    { "id": "q2", "text": "The electrode potential of the standard hydrogen electrode is taken as:", "options": ["1.00 V", "0.00 V", "−0.76 V", "0.34 V"], "answer": 1 },
+    { "id": "q3", "text": "The relation between Gibbs energy change and the standard EMF of a cell is:", "options": ["ΔG° = nFE°", "ΔG° = −nFE°", "ΔG° = −E°/nF", "ΔG° = nF/E°"], "answer": 1 },
+    { "id": "q4", "text": "For a spontaneous cell reaction:", "options": ["ΔG > 0 and E(cell) > 0", "ΔG < 0 and E(cell) > 0", "ΔG < 0 and E(cell) < 0", "ΔG = 0 and E(cell) = 0"], "answer": 1 },
+    { "id": "q5", "text": "At 298 K, the Nernst equation for a cell reaction is:", "options": ["E = E° + (0.0591/n) log Q", "E = E° − (0.0591/n) log Q", "E = E° − 0.0591 n log Q", "E = E° × (0.0591/n) log Q"], "answer": 1 },
+    { "id": "q6", "text": "The SI unit of conductivity (κ) is:", "options": ["S m", "S m⁻¹", "Ω m", "S m² mol⁻¹"], "answer": 1 },
+    { "id": "q7", "text": "As the concentration of an electrolyte decreases (on dilution), its molar conductivity:", "options": ["decreases", "increases", "stays the same", "becomes zero"], "answer": 1 },
+    { "id": "q8", "text": "Kohlrausch's law states that the limiting molar conductivity of an electrolyte is the sum of the contributions of its:", "options": ["solvent and solute", "cation and anion", "electrodes", "electrons and protons"], "answer": 1 },
+    { "id": "q9", "text": "One Faraday is approximately equal to:", "options": ["9650 C mol⁻¹", "96500 C mol⁻¹", "6.022 × 10²³ C", "1.6 × 10⁻¹⁹ C"], "answer": 1 },
+    { "id": "q10", "text": "Faraday's first law of electrolysis states that the mass deposited at an electrode is proportional to the:", "options": ["quantity of electricity passed", "voltage applied", "area of the electrode", "temperature of the electrolyte"], "answer": 0 }
+  ]
+}
