@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 180 180">
+  <style>.o{stroke:#0B3A66}@media (prefers-color-scheme:dark){.o{stroke:#C9D8F0}}</style>
+  <g class="o" fill="none" stroke-width="11">
+    <ellipse cx="84" cy="84" rx="28" ry="76"/>
+    <ellipse cx="84" cy="84" rx="28" ry="76" transform="rotate(60 84 84)"/>
+    <ellipse cx="84" cy="84" rx="28" ry="76" transform="rotate(-60 84 84)"/>
+  </g>
+  <circle cx="84" cy="84" r="21" fill="#E95534"/>
+</svg>
