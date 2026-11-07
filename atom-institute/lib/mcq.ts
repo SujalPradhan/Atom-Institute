@@ -49,6 +49,10 @@ export const classBoardOptions = classes.flatMap((c) =>
   })),
 )
 
+export function classBoardValue(classNumber: number, board: string): string {
+  return `${classNumber}-${board.toUpperCase()}`
+}
+
 export function classBoardLabel(value: string): string {
   return classBoardOptions.find((o) => o.value === value)?.label ?? value
 }
@@ -79,8 +83,8 @@ export function submitAttempt(code: string, payload: { name: string; classBoard:
   })
 }
 
-export function getAttempts(code: string, teacherKey: string) {
+export function getAttempts(code: string, password: string) {
   return request<McqAttempts>(`/tests/${encodeURIComponent(code)}/attempts`, {
-    headers: { "x-teacher-key": teacherKey },
+    headers: { "x-teacher-key": password },
   })
 }

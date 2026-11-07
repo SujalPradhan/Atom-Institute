@@ -2,12 +2,17 @@
  * Learning Hub syllabus data.
  *
  * Each course below lists its chapter titles. To attach resources to a chapter,
- * pass an `extras` object as the last argument of course(), keyed by the exact
+ * pass an `extras` object as the fifth argument of course(), keyed by the exact
  * chapter title:
  *   { Electricity: { notes: [{ title: "Notes", url: "https://..." }],
  *                    mcq: [{ title: "Test 1", code: "ELEC01" }] } }
- * notes / ppt / solved take { title, url } (Notion or Google Drive links);
- * mcq takes { title, code } where code is a test code used on /tests.
+ * notes / ppt / solved take { title, url } (Notion or Google Drive links).
+ *
+ * MCQ tests take { title, code }. A chapter's `mcq` lists tests on that
+ * chapter's MCQ Tests tab; a course's `tests` (sixth argument of course())
+ * lists subject-level tests on the subject page. The code is the test
+ * password: it is shared with students in their WhatsApp group and is never
+ * rendered, linked or prefilled. Only the title is shown.
  */
 
 import { boards, classes, type Board } from "@/lib/data"
@@ -39,6 +44,7 @@ export interface Course {
   subjectSlug: string
   subject: string
   chapters: Chapter[]
+  tests?: McqResource[]
 }
 
 type ClassNumber = Course["classNumber"]
@@ -58,6 +64,7 @@ function course(
   subject: string,
   titles: string[],
   extras: Extras = {},
+  tests?: McqResource[],
 ): Course {
   return {
     classNumber,
@@ -65,6 +72,7 @@ function course(
     subjectSlug: slugify(subject),
     subject,
     chapters: titles.map((title) => ({ slug: slugify(title), title, ...extras[title] })),
+    ...(tests ? { tests } : {}),
   }
 }
 
@@ -682,6 +690,8 @@ const class12Chemistry: Extras = {
   Electrochemistry: electrochemistryLecture,
 }
 
+const chemistry12Tests: McqResource[] = [{ title: "2024 Board PYQ · Top 10 MCQs", code: "CHEM24PYQ" }]
+
 export const courses: Course[] = [
   course(10, "CBSE", "Science", cbse10Science, {
     Electricity: { mcq: [{ title: "Demo Test · Class 10 Science", code: "DEMO10" }] },
@@ -713,17 +723,17 @@ export const courses: Course[] = [
   course(11, "Madhyamik", "Computer Science", wb11Computer),
 
   course(12, "CBSE", "Physics", cbse12Physics, { "Electric Charges and Fields": electrostaticsLecture }),
-  course(12, "CBSE", "Chemistry", cbse12Chemistry, class12Chemistry),
+  course(12, "CBSE", "Chemistry", cbse12Chemistry, class12Chemistry, chemistry12Tests),
   course(12, "CBSE", "Mathematics", cbse12Maths),
   course(12, "CBSE", "Biology", cbse12Biology),
   course(12, "CBSE", "Computer Science", cbse12Computer),
   course(12, "ICSE", "Physics", isc12Physics, { Electrostatics: electrostaticsLecture }),
-  course(12, "ICSE", "Chemistry", isc12Chemistry, class12Chemistry),
+  course(12, "ICSE", "Chemistry", isc12Chemistry, class12Chemistry, chemistry12Tests),
   course(12, "ICSE", "Mathematics", isc12Maths),
   course(12, "ICSE", "Biology", isc12Biology),
   course(12, "ICSE", "Computer Science", isc12Computer),
   course(12, "Madhyamik", "Physics", wb12Physics, { Electrostatics: electrostaticsLecture }),
-  course(12, "Madhyamik", "Chemistry", wb12Chemistry, class12Chemistry),
+  course(12, "Madhyamik", "Chemistry", wb12Chemistry, class12Chemistry, chemistry12Tests),
   course(12, "Madhyamik", "Mathematics", wb12Maths),
   course(12, "Madhyamik", "Biology", wb12Biology),
   course(12, "Madhyamik", "Computer Science", wb12Computer),
@@ -769,7 +779,7 @@ export function chapterResourceCount(chapter: Chapter): number {
 }
 
 export function resourceCount(source: Chapter | Course | Batch): number {
-  if ("chapters" in source) return source.chapters.reduce((n, c) => n + chapterResourceCount(c), 0)
+  if ("chapters" in source) return source.chapters.reduce((n, c) => n + chapterResourceCount(c), 0) + (source.tests?.length ?? 0)
   if ("courses" in source) return source.courses.reduce((n, c) => n + resourceCount(c), 0)
   return chapterResourceCount(source)
 }

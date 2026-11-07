@@ -3,7 +3,9 @@
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import McqTestPanel from "@/components/mcq-test"
 import { BoardTag, Breadcrumbs } from "@/components/learning-hub"
+import { classBoardValue } from "@/lib/mcq"
 import {
   batchHref,
   batchName,
@@ -45,22 +47,17 @@ export default function ChapterContent({ course, chapter, number, previous, next
   const batch = batchName(course.classNumber, course.board)
   const base = chapterHref(course, chapter)
 
-  const rows: { key: string; title: string; sub: string; href: string; external: boolean }[] =
+  const rows: { key: string; title: string; sub: string; href: string }[] =
     active.kind === "mcq"
-      ? (chapter.mcq ?? []).map((m) => ({
-          key: m.code,
-          title: m.title,
-          sub: `Code ${m.code}`,
-          href: `/tests?code=${encodeURIComponent(m.code)}`,
-          external: false,
-        }))
+      ? []
       : ((chapter[active.kind] ?? []) as LinkResource[]).map((r) => ({
           key: r.url,
           title: r.title,
           sub: hostOf(r.url),
           href: r.url,
-          external: true,
         }))
+  const tests = active.kind === "mcq" ? (chapter.mcq ?? []) : []
+  const empty = active.kind === "mcq" ? tests.length === 0 : rows.length === 0
 
   return (
     <main className="page max-w-4xl">
@@ -102,19 +99,26 @@ export default function ChapterContent({ course, chapter, number, previous, next
           ))}
         </div>
 
-        {rows.length === 0 ? (
+        {empty ? (
           <p className="glass px-4 py-10 text-center text-muted-foreground">
             No {active.empty} for this chapter yet. Contact Mr. Arpan Pradhan.
           </p>
+        ) : active.kind === "mcq" ? (
+          <ul className="row-list">
+            {tests.map((t, i) => (
+              <li key={i} className="flex min-h-14 items-center gap-4 px-4 py-3 sm:px-5">
+                <span className="w-12 shrink-0 rounded-full bg-accent px-2 py-0.5 text-center text-xs font-medium text-accent-foreground">
+                  {active.badge}
+                </span>
+                <span className="min-w-0 flex-1 truncate font-medium text-foreground">{t.title}</span>
+              </li>
+            ))}
+          </ul>
         ) : (
           <ul className="row-list">
             {rows.map((row) => (
               <li key={row.key}>
-                <Link
-                  href={row.href}
-                  {...(row.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  className="row-link"
-                >
+                <Link href={row.href} target="_blank" rel="noopener noreferrer" className="row-link">
                   <span className="w-12 shrink-0 rounded-full bg-accent px-2 py-0.5 text-center text-xs font-medium text-accent-foreground">
                     {active.badge}
                   </span>
@@ -128,14 +132,7 @@ export default function ChapterContent({ course, chapter, number, previous, next
           </ul>
         )}
 
-        {active.kind === "mcq" && (
-          <p className="mt-4 text-sm text-muted-foreground">
-            Have a test code?{" "}
-            <Link href="/tests" className="font-medium text-link underline-offset-4 hover:underline">
-              Take a test →
-            </Link>
-          </p>
-        )}
+        {active.kind === "mcq" && <McqTestPanel classBoard={classBoardValue(course.classNumber, course.board)} />}
 
         <div className="mt-10 flex items-center justify-between gap-4 text-sm">
           {previous ? (

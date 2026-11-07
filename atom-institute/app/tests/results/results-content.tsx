@@ -11,7 +11,7 @@ const fieldClass = "field"
 
 export default function ResultsContent() {
   const [code, setCode] = useState("")
-  const [key, setKey] = useState("")
+  const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [data, setData] = useState<McqAttempts | null>(null)
@@ -22,9 +22,10 @@ export default function ResultsContent() {
     setData(null)
     setLoading(true)
     try {
-      const res = await getAttempts(code.trim(), key)
+      const res = await getAttempts(code.trim(), password)
       if (res.ok) setData(res.data)
-      else if (res.status === 401) setError("Wrong teacher key.")
+      else if (res.status === 401) setError("Wrong password.")
+      else if (res.status === 429) setError("Too many wrong attempts. Try again in 15 minutes.")
       else if (res.status === 404) setError("No test found.")
       else toast.error("Something went wrong. Please try again.")
     } catch {
@@ -39,7 +40,7 @@ export default function ResultsContent() {
       <div>
         <div className="mb-8 flex flex-col items-center space-y-3 text-center">
           <h1 className="page-title">Test Results</h1>
-          <p className="page-lead">Enter the test code and teacher key to view attempts</p>
+          <p className="page-lead">Enter the test code and teacher password to view attempts</p>
         </div>
 
         <Card className="mx-auto max-w-2xl">
@@ -61,14 +62,14 @@ export default function ResultsContent() {
               </div>
               <div className="space-y-2">
                 <label htmlFor="key" className="field-label">
-                  Teacher key
+                  Teacher password
                 </label>
                 <input
                   id="key"
                   type="password"
                   className={fieldClass}
-                  value={key}
-                  onChange={(e) => setKey(e.target.value)}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                   autoComplete="off"
                 />
@@ -78,7 +79,7 @@ export default function ResultsContent() {
                   </p>
                 )}
               </div>
-              <Button type="submit" className="w-full" disabled={loading || !code.trim() || !key}>
+              <Button type="submit" className="w-full" disabled={loading || !code.trim() || !password}>
                 {loading && <Loader2 className="h-4 w-4 animate-spin" />}
                 {loading ? "Loading" : "View results"}
               </Button>

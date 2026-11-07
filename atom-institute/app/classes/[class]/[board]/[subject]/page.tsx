@@ -2,7 +2,9 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { BoardTag, Breadcrumbs } from "@/components/learning-hub"
+import McqTestPanel from "@/components/mcq-test"
 import { classes, getClassById } from "@/lib/data"
+import { classBoardValue } from "@/lib/mcq"
 import { batchHref, batchName, boardFromSlug, boardSlug, chapterHref, courses, getCourse } from "@/lib/syllabus"
 
 interface PageProps {
@@ -67,6 +69,23 @@ export default async function SubjectPage({ params }: PageProps) {
             </li>
           ))}
         </ol>
+
+        {course.tests && course.tests.length > 0 && (
+          <section className="mt-10" aria-label="Tests">
+            <h2 className="mb-3 text-xl font-semibold tracking-tight text-foreground">Tests</h2>
+            <ul className="row-list">
+              {course.tests.map((t, i) => (
+                <li key={i} className="flex min-h-14 items-center gap-4 px-4 py-3 sm:px-5">
+                  <span className="w-12 shrink-0 rounded-full bg-accent px-2 py-0.5 text-center text-xs font-medium text-accent-foreground">
+                    MCQ
+                  </span>
+                  <span className="min-w-0 flex-1 font-medium text-foreground">{t.title}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+        <McqTestPanel classBoard={classBoardValue(course.classNumber, course.board)} />
       </div>
     </main>
   )

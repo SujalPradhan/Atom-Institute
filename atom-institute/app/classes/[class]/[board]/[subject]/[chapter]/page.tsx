@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { Suspense } from "react"
 import { notFound } from "next/navigation"
 import { classes, getClassById } from "@/lib/data"
-import { boardFromSlug, boardSlug, courses, getChapter, getCourse } from "@/lib/syllabus"
+import { boardFromSlug, boardSlug, courses, getChapter, getCourse, type Chapter } from "@/lib/syllabus"
 import ChapterContent from "./chapter-content"
 
 interface PageProps {
@@ -40,16 +40,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 }
 
+const redactChapter = (c: Chapter): Chapter => (c.mcq ? { ...c, mcq: c.mcq.map((m) => ({ title: m.title, code: "" })) } : c)
+
 export default async function ChapterPage({ params }: PageProps) {
   const found = await resolve(params)
   if (!found) notFound()
-  const { course, chapter, index } = found
+  const { chapter, index } = found
+  const course = { ...found.course, chapters: found.course.chapters.map(redactChapter), tests: undefined }
 
   return (
     <Suspense>
       <ChapterContent
         course={course}
-        chapter={chapter}
+        chapter={redactChapter(chapter)}
         number={index + 1}
         previous={course.chapters[index - 1] ?? null}
         next={course.chapters[index + 1] ?? null}
