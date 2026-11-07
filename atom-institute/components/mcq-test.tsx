@@ -1,20 +1,17 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useSearchParams } from "next/navigation"
 import { toast } from "sonner"
 import { Check, Loader2, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { classBoardOptions, getTest, submitAttempt, type McqScore, type McqTest } from "@/lib/mcq"
+import { getTest, submitAttempt, type McqScore, type McqTest } from "@/lib/mcq"
 
 const STORAGE_KEY = "atom-mcq-student"
 const fieldClass = "field"
 
-export default function TestsContent() {
-  const searchParams = useSearchParams()
+export default function McqTestPanel({ classBoard }: { classBoard: string }) {
   const [name, setName] = useState("")
-  const [classBoard, setClassBoard] = useState("")
   const [code, setCode] = useState("")
   const [loading, setLoading] = useState(false)
   const [formError, setFormError] = useState("")
@@ -29,22 +26,16 @@ export default function TestsContent() {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "null")
       if (saved && typeof saved === "object") {
         if (typeof saved.name === "string") setName(saved.name)
-        if (typeof saved.classBoard === "string") setClassBoard(saved.classBoard)
       }
     } catch {}
   }, [])
-
-  useEffect(() => {
-    const prefill = searchParams.get("code")
-    if (prefill) setCode(prefill.toUpperCase())
-  }, [searchParams])
 
   async function start(e: React.FormEvent) {
     e.preventDefault()
     setFormError("")
     setLoading(true)
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ name: name.trim(), classBoard }))
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ name: name.trim() }))
     } catch {}
     try {
       const res = await getTest(code.trim())
@@ -90,12 +81,9 @@ export default function TestsContent() {
   }
 
   return (
-    <main className="page max-w-2xl">
+    <section aria-label="Take a test" className="mt-8">
       <div>
-        <div className="mb-8 flex flex-col items-center space-y-3 text-center">
-          <h1 className="page-title">MCQ Test</h1>
-          {!test && <p className="page-lead">Enter your details and test code to begin</p>}
-        </div>
+        {!test && <h2 className="mb-3 text-xl font-semibold tracking-tight text-foreground">Take a test</h2>}
 
         {!test && (
           <Card>
@@ -116,36 +104,16 @@ export default function TestsContent() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label htmlFor="classBoard" className="field-label">
-                    Class &amp; board
-                  </label>
-                  <select
-                    id="classBoard"
-                    className={fieldClass}
-                    value={classBoard}
-                    onChange={(e) => setClassBoard(e.target.value)}
-                    required
-                  >
-                    <option value="" disabled>
-                      Select class and board
-                    </option>
-                    {classBoardOptions.map((o) => (
-                      <option key={o.value} value={o.value}>
-                        {o.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="space-y-2">
                   <label htmlFor="code" className="field-label">
                     Test code
                   </label>
                   <input
                     id="code"
-                    className={`${fieldClass} uppercase`}
+                    className={`${fieldClass} uppercase placeholder:normal-case`}
                     value={code}
                     onChange={(e) => setCode(e.target.value.toUpperCase())}
                     required
+                    placeholder="Code shared by your teacher"
                     autoCapitalize="characters"
                     autoComplete="off"
                   />
@@ -155,11 +123,11 @@ export default function TestsContent() {
                     </p>
                   )}
                 </div>
-                <Button type="submit" className="w-full" disabled={loading || !name.trim() || !classBoard || !code.trim()}>
+                <Button type="submit" className="w-full" disabled={loading || !name.trim() || !code.trim()}>
                   {loading && <Loader2 className="h-4 w-4 animate-spin" />}
                   {loading ? "Loading" : "Start test"}
                 </Button>
-                <p className="text-sm text-muted-foreground text-center">Don&apos;t have a code? Ask Mr. Arpan Pradhan.</p>
+                <p className="text-center text-sm text-muted-foreground">Don&apos;t have the code? Ask Mr. Arpan Pradhan.</p>
               </form>
             </CardContent>
           </Card>
@@ -279,6 +247,6 @@ export default function TestsContent() {
           </div>
         )}
       </div>
-    </main>
+    </section>
   )
 }

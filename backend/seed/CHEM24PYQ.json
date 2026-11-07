@@ -1,0 +1,16 @@
+{
+  "code": "CHEM24PYQ",
+  "title": "Class 12 Chemistry · 2024 Board PYQ · Top 10 MCQs",
+  "questions": [
+    { "id": "q1", "text": "Which of the following ionic solid compounds shows both Schottky as well as Frenkel defects?", "options": ["AgBr", "NaCl", "CsCl", "ZnS"], "answer": 0 },
+    { "id": "q2", "text": "Which is the SI unit of molar conductance?", "options": ["S cm mol⁻¹", "Ohm cm mol⁻¹", "S m² mol⁻¹", "S m⁻¹"], "answer": 2 },
+    { "id": "q3", "text": "Which of the following is a colloid system of liquid dispersion medium and gaseous dispersed phase?", "options": ["Foam", "Gel", "Emulsion", "Sol"], "answer": 0 },
+    { "id": "q4", "text": "Which of the following has the ability to release bromine from KBr?", "options": ["I₂", "SO₂", "Br₂", "F₂"], "answer": 3 },
+    { "id": "q5", "text": "Which of the following transition elements does not exhibit variable oxidation state?", "options": ["Sc", "Fe", "Mn", "Co"], "answer": 0 },
+    { "id": "q6", "text": "The hybridisation state of the central metal atom of a square planar complex compound is:", "options": ["sp³", "dsp²", "d²sp", "sp³d"], "answer": 1 },
+    { "id": "q7", "text": "On reaction with aqueous bromine at room temperature, phenol forms which of the following?", "options": ["meta-bromophenol", "2,6-dibromophenol", "2,4,6-tribromophenol", "3,5-dibromophenol"], "answer": 2 },
+    { "id": "q8", "text": "Which reagent is used to convert acetophenone (C₆H₅COCH₃) into ethylbenzene (C₆H₅CH₂CH₃)?", "options": ["LiAlH₄", "Zn(Hg), conc. HCl", "NaBH₄", "H₂, Ni"], "answer": 1 },
+    { "id": "q9", "text": "In which of the following orders are base, phosphate and sugar arranged in a nucleic acid chain?", "options": ["Base–phosphate–sugar", "Base–sugar–phosphate", "Phosphate–base–sugar", "Sugar–base–phosphate"], "answer": 1 },
+    { "id": "q10", "text": "Which of the following is a polyamide polymer?", "options": ["Bakelite", "Terylene", "Teflon", "Nylon-6,6"], "answer": 3 }
+  ]
+}
