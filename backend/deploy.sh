@@ -20,11 +20,16 @@ if gcloud run services describe "$SERVICE" --project "$PROJECT" --region "$REGIO
   KEY="$(gcloud run services describe "$SERVICE" --project "$PROJECT" --region "$REGION" \
     --format='value(spec.template.spec.containers[0].env.filter(name:TEACHER_KEY).extract(value).flatten())' 2>/dev/null || true)"
 fi
+if [ -n "${TEACHER_PASSWORD:-}" ]; then KEY="$TEACHER_PASSWORD"; fi
 [ -n "$KEY" ] || KEY="$(openssl rand -hex 16)"
+
+ENV_FILE="$(mktemp)"
+trap 'rm -f "$ENV_FILE"' EXIT
+KEY="$KEY" BUCKET="$BUCKET" ORIGINS="$ORIGINS" python3 -c 'import json,os; print(json.dumps({"BUCKET": os.environ["BUCKET"], "TEACHER_KEY": os.environ["KEY"], "ALLOWED_ORIGINS": os.environ["ORIGINS"]}))' > "$ENV_FILE"
 
 gcloud run deploy "$SERVICE" --project "$PROJECT" --region "$REGION" --source . \
   --allow-unauthenticated --max-instances=2 --memory=256Mi \
-  --set-env-vars "^@^BUCKET=${BUCKET}@TEACHER_KEY=${KEY}@ALLOWED_ORIGINS=${ORIGINS}" --quiet
+  --env-vars-file "$ENV_FILE" --quiet
 
 SA="$(gcloud run services describe "$SERVICE" --project "$PROJECT" --region "$REGION" \
   --format='value(spec.template.spec.serviceAccountName)')"
@@ -39,4 +44,4 @@ gcloud storage cp seed/*.json "gs://${BUCKET}/tests/" --project "$PROJECT"
 
 URL="$(gcloud run services describe "$SERVICE" --project "$PROJECT" --region "$REGION" --format='value(status.url)')"
 echo "Service URL: $URL"
-echo "Teacher key: $KEY"
+echo "Teacher password is set (TEACHER_KEY env on the service)."

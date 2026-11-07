@@ -27,6 +27,30 @@ function safeEqual(a: string, b: string) {
   return timingSafeEqual(ha, hb);
 }
 
+const FAIL_LIMIT = 10;
+const FAIL_WINDOW_MS = 15 * 60 * 1000;
+const failures = new Map<string, { count: number; since: number }>();
+
+function clientIp(c: Context) {
+  return c.req.header("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+}
+
+function isLocked(ip: string) {
+  const f = failures.get(ip);
+  if (!f) return false;
+  if (Date.now() - f.since > FAIL_WINDOW_MS) {
+    failures.delete(ip);
+    return false;
+  }
+  return f.count >= FAIL_LIMIT;
+}
+
+function recordFailure(ip: string) {
+  const f = failures.get(ip);
+  if (!f || Date.now() - f.since > FAIL_WINDOW_MS) failures.set(ip, { count: 1, since: Date.now() });
+  else f.count += 1;
+}
+
 function slug(name: string) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 30) || "anon";
 }
@@ -102,11 +126,15 @@ export function createApp(store: Store) {
   });
 
   app.get("/tests/:code/attempts", async (c) => {
+    const ip = clientIp(c);
+    if (isLocked(ip)) return c.json({ error: "too_many_attempts" }, 429);
     const expected = process.env.TEACHER_KEY;
     const provided = c.req.header("x-teacher-key");
     if (!expected || !provided || !safeEqual(provided, expected)) {
+      recordFailure(ip);
       return c.json({ error: "unauthorized" }, 401);
     }
+    failures.delete(ip);
     const test = await loadTest(c.req.param("code"));
     if (!test) return c.json({ error: "not_found" }, 404);
 
