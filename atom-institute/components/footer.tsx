@@ -1,5 +1,6 @@
 import Link from "next/link"
-import Image from "next/image"
+import { AtomMark } from "@/components/atom-mark"
+import { Mail, MapPin, Phone } from "lucide-react"
 import { contact, socialLinks } from "@/lib/data"
 
 const socials = [
@@ -20,25 +21,23 @@ const socials = [
   },
 ].filter((s) => s.url)
 
+const linkClass = "inline-flex min-h-10 items-center text-sm text-foreground transition-colors hover:text-link"
+
 export default function Footer() {
   return (
-    <footer className="bg-blue-900 text-white border-t border-blue-800 pt-10 pb-6">
-      <div className="container mx-auto px-4">
-        {/* Footer Content Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          {/* Column 1: About */}
-          <div className="flex flex-col space-y-4">
+    <footer className="px-3 pb-4 pt-12 sm:px-4">
+      <div className="glass mx-auto max-w-5xl rounded-3xl p-6 sm:p-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-[1.4fr_1fr_1.4fr]">
+          <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="bg-white p-1 rounded-md">
-                <Image src="/images/logo.jpeg" alt="Atom Institute Logo" width={40} height={40} className="rounded-md" />
-              </div>
-              <h3 className="text-xl font-bold text-white">Atom Institute</h3>
+              <AtomMark className="h-9 w-9" />
+              <h3 className="text-lg font-semibold tracking-tight text-foreground">Atom Institute</h3>
             </div>
-            <p className="text-sm text-blue-100 mt-2">
+            <p className="max-w-xs text-sm text-muted-foreground">
               Providing quality education for classes 10, 11, and 12 across ICSE, CBSE, and Madhyamik boards.
             </p>
             {socials.length > 0 && (
-              <div className="flex space-x-4 mt-2">
+              <div className="flex gap-1">
                 {socials.map((social) => (
                   <a
                     key={social.name}
@@ -46,7 +45,7 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.name}
-                    className="text-blue-200 hover:text-white transition-colors"
+                    className="flex h-10 w-10 items-center justify-center rounded-full text-foreground transition-colors hover:bg-foreground/5 hover:text-link"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
                       <path d={social.path} />
@@ -57,57 +56,41 @@ export default function Footer() {
             )}
           </div>
 
-          {/* Column 2: Quick Links */}
           <div>
-            <h4 className="text-lg font-semibold text-blue-100 mb-4">Quick Links</h4>
-            <nav className="flex flex-col space-y-2">
-              <Link href="/" className="text-blue-200 hover:text-white transition-colors text-sm">Home</Link>
-              <Link href="/about" className="text-blue-200 hover:text-white transition-colors text-sm">About Us</Link>
-              <Link href="/classes" className="text-blue-200 hover:text-white transition-colors text-sm">Our Classes</Link>
-              <Link href="/gallery" className="text-blue-200 hover:text-white transition-colors text-sm">Gallery</Link>
-              <Link href="/testimonials" className="text-blue-200 hover:text-white transition-colors text-sm">Testimonials</Link>
+            <h4 className="mb-2 text-sm font-semibold text-foreground">Quick Links</h4>
+            <nav className="flex flex-col">
+              <Link href="/" className={linkClass}>Home</Link>
+              <Link href="/about" className={linkClass}>About Us</Link>
+              <Link href="/classes" className={linkClass}>Our Classes</Link>
+              <Link href="/gallery" className={linkClass}>Gallery</Link>
+              <Link href="/testimonials" className={linkClass}>Testimonials</Link>
             </nav>
           </div>
 
-          {/* Column 3: Contact */}
           <div>
-            <h4 className="text-lg font-semibold text-blue-100 mb-4">Contact Us</h4>
-            <div className="space-y-3">
-              <div className="flex items-start space-x-3 text-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" className="text-blue-300 mt-0.5">
-                  <path fillRule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-                </svg>
-                <span className="text-blue-100">{contact.location}</span>
+            <h4 className="mb-2 text-sm font-semibold text-foreground">Contact Us</h4>
+            <div className="flex flex-col">
+              <div className="flex min-h-10 items-center gap-3 text-sm text-foreground">
+                <MapPin className="h-4 w-4 shrink-0 text-accent-foreground" aria-hidden />
+                <span>{contact.location}</span>
               </div>
-              <div className="flex items-start space-x-3 text-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" className="text-blue-300 mt-0.5">
-                  <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
-                </svg>
-                <a href={`tel:${contact.phone.replace(/\s+/g, "")}`} className="text-blue-100 hover:text-white transition-colors">
-                  {contact.phone}
-                </a>
-              </div>
-              <div className="flex items-start space-x-3 text-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" className="text-blue-300 mt-0.5">
-                  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
-                </svg>
-                <a href={`mailto:${contact.email}`} className="text-blue-100 hover:text-white transition-colors">
-                  {contact.email}
-                </a>
-              </div>
+              <a href={`tel:${contact.phone.replace(/\s+/g, "")}`} className={`${linkClass} gap-3`}>
+                <Phone className="h-4 w-4 shrink-0 text-accent-foreground" aria-hidden />
+                {contact.phone}
+              </a>
+              <a href={`mailto:${contact.email}`} className={`${linkClass} gap-3`}>
+                <Mail className="h-4 w-4 shrink-0 text-accent-foreground" aria-hidden />
+                {contact.email}
+              </a>
             </div>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="border-t border-blue-800 my-6"></div>
-
-        {/* Bottom Footer */}
-        <div className="flex flex-col md:flex-row justify-between items-center text-xs text-blue-200 gap-4">
+        <div className="mt-6 flex flex-col items-start justify-between gap-1 border-t border-foreground/10 pt-4 text-xs text-muted-foreground md:flex-row md:items-center">
           <div>© {new Date().getFullYear()} Atom Institute. All rights reserved.</div>
           <div className="flex gap-4">
-            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="/privacy" className="inline-flex min-h-10 items-center hover:text-link">Privacy Policy</Link>
+            <Link href="/terms" className="inline-flex min-h-10 items-center hover:text-link">Terms of Service</Link>
           </div>
           <div>
             Created by{" "}
@@ -115,7 +98,7 @@ export default function Footer() {
               href="https://www.linkedin.com/in/sujal-raj-pradhan-a85043242/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-300 hover:text-white hover:underline"
+              className="font-medium text-link hover:underline"
             >
               Sujal Raj Pradhan
             </a>

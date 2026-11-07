@@ -1,73 +1,90 @@
 "use client"
 
 import Link from "next/link"
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { ChevronRight } from "lucide-react"
-import { classes } from "@/lib/data"
-
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-}
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-}
+import { useState } from "react"
+import { Search } from "lucide-react"
+import { BoardTag, hubCardClass } from "@/components/learning-hub"
+import { boards, classes } from "@/lib/data"
+import { batchHref, batchName, chapterHref, getBatch, resourceCount, searchChapters } from "@/lib/syllabus"
 
 export default function ClassesContent() {
-  return (
-    <main className="flex min-h-screen flex-col items-center py-12 bg-white">
-      <div className="container px-4 md:px-6">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col items-center justify-center space-y-4 text-center mb-12"
-        >
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-blue-900">
-            Select Your Class
-          </h1>
-          <p className="mx-auto max-w-[700px] text-gray-600 md:text-xl">
-            Choose your class to access study materials organized by board and subject
-          </p>
-        </motion.div>
+  const [query, setQuery] = useState("")
+  const trimmed = query.trim()
+  const searching = trimmed.length >= 2
+  const results = searching ? searchChapters(trimmed) : []
 
-        <motion.div
-          variants={container}
-          initial="hidden"
-          animate="show"
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto"
-        >
-          {classes.map((classItem) => (
-            <motion.div key={classItem.id} variants={item}>
-              <Link href={`/classes/${classItem.id}`}>
-                <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white border border-gray-200">
-                  <CardContent className="p-6">
-                    <div className="flex flex-col items-center text-center space-y-4">
-                      <div className="rounded-full bg-blue-100 p-6 w-24 h-24 flex items-center justify-center">
-                        <span className="text-4xl font-bold text-blue-900">{classItem.classNumber}</span>
-                      </div>
-                      <h3 className="text-2xl font-bold text-blue-900">{classItem.name}</h3>
-                      <p className="text-gray-600">{classItem.description}</p>
-                      <Button className="mt-4 group">
-                        Continue
-                        <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            </motion.div>
-          ))}
-        </motion.div>
+  return (
+    <main className="page max-w-4xl">
+      <div>
+        <div className="mb-10 space-y-3 text-center">
+          <h1 className="page-title">Learn. Practise. Score.</h1>
+          <p className="page-lead mx-auto">
+            Chapter-wise notes, PPTs, solved questions and MCQ tests for every Atom Institute batch.
+          </p>
+        </div>
+
+        <div className="relative mx-auto mb-10 max-w-xl">
+          <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search a chapter… e.g. Electricity, Quadratic"
+            aria-label="Search chapters"
+            className="field rounded-full pl-10 pr-4"
+          />
+        </div>
+
+        {searching ? (
+          <section aria-live="polite">
+            {results.length === 0 ? (
+              <p className="text-center text-muted-foreground">No chapter matches “{trimmed}”.</p>
+            ) : (
+              <>
+                <p className="mb-3 text-sm text-muted-foreground">
+                  {results.length} {results.length === 1 ? "result" : "results"}
+                </p>
+                <ul className="row-list">
+                  {results.map(({ course, chapter, number }) => (
+                    <li key={`${course.classNumber}-${course.board}-${course.subjectSlug}-${chapter.slug}`}>
+                      <Link href={chapterHref(course, chapter)} className="row-link">
+                        <span className="w-6 text-sm text-muted-foreground">{number}</span>
+                        <span className="min-w-0 flex-1">
+                          <span className="block truncate font-medium text-foreground">{chapter.title}</span>
+                          <span className="block text-xs text-muted-foreground">
+                            {batchName(course.classNumber, course.board)} · {course.subject}
+                          </span>
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </section>
+        ) : (
+          <section>
+            <h2 className="mb-4 text-lg font-semibold tracking-tight text-foreground">Choose your batch</h2>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {classes.flatMap((c) =>
+                boards.map((board) => {
+                  const batch = getBatch(c.classNumber, board)
+                  if (!batch) return []
+                  const resources = resourceCount(batch)
+                  return [
+                    <Link key={batch.name} href={batchHref(c.classNumber, board)} className={hubCardClass}>
+                      <BoardTag board={board} />
+                      <h3 className="mt-3 text-lg font-semibold tracking-tight text-foreground">{batch.name}</h3>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        {batch.courses.length} subjects · {resources} {resources === 1 ? "resource" : "resources"}
+                      </p>
+                    </Link>,
+                  ]
+                }),
+              )}
+            </div>
+          </section>
+        )}
       </div>
     </main>
   )
